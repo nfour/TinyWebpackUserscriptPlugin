@@ -6,7 +6,7 @@ import * as pad from "pad";
 const PLUGIN_NAME = 'WebpackUserscriptPlugin';
 
 export class TinyWebpackUserscriptPlugin implements Plugin {
-  constructor (public options: { meta: IMetaSchema, developmentUrl?: string, }) {
+  constructor (public options: { meta: IMetaSchema, openUserJsHeader?: boolean, developmentUrl?: string, }) {
     this.options = options;
   }
 
@@ -17,7 +17,18 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
 
       const mainFilename = `${this.options.meta.name}.user.js`;
       const devFilename = `${this.options.meta.name}.dev.user.js`;
-      const mainHeader = renderScriptHeader(this.options.meta);
+
+      const mainHeader = (() => {
+        const header = renderScriptHeader(this.options.meta);;
+
+        if (!this.options.openUserJsHeader) {
+          const openUserJsHeader = renderScriptHeader({ author: this.options.meta.author }, { name: 'OpenUserJS'})
+
+          return [header, openUserJsHeader].join('\n\n')
+        }
+
+        return header;
+      })();
 
       compilation.chunks.forEach((chunk: CompilationNS.Chunk) => {
         if (!chunk.canBeInitial()) { return; }

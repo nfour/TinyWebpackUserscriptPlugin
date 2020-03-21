@@ -1,19 +1,61 @@
-# Tiny Mobx State Tree Router
+# Tiny Webpack Userscript Plugin
 
-It's only [one file](./TinyMstRouter.ts). Based on [/alisd23/mst-react-router](https://github.com/alisd23/mst-react-router)
+- Allows one to bundle userscripts, using webpack
+- It's one file: [TinyWebpackUserscriptPlugin.ts](./TinyWebpackUserscriptPlugin.ts)
+
++ [Usage](#usage)
++ [Development tips](#development-tips)
 
 ## Usage
 
+This could be your `webpack.config.ts`:
+
 ```ts
-import { TinyMstRouter } from 'tiny-mst-router';
+const meta: IMetaSchema = {
+  author: 'jim',
+  license: 'MIT',
+  name: 'TestScript',
+  namespace: 'jim',
+  version: '0.1.0',
+}
 
-const router = TinyMstRouter.create({})
-
-router.push('/myroute')
+export default <Configuration> {
+  mode: "development",
+  entry: { [meta.name]: `./${meta.name}.ts` },
+  plugins: [
+    new TinyWebpackUserscriptPlugin({
+      distributionUrl: 'foo.com/wew',
+      meta: meta,
+      development: { baseUrl: 'http://localhost:9002' }
+    })
+  ],
+  output: {
+    path: buildDirectory,
+    filename: `[name].user.js`
+  },
+  resolve: { extensions: ['.ts', '.js'] },
+  module: {
+    rules: [{
+      test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/
+    }]
+  },
+}
 ```
 
-## Install
+- See test project [./test/TinyWebpackUserscriptPlugin.test.ts](./test/TinyWebpackUserscriptPlugin.test.ts) for details.
 
-Dont forget the peer dependencies.
+## Development tips
 
-`yarn add tiny-mst-router mobx mobx-state-tree`
+To compile and serve your userscripts at, for at `http://localhost:9002/${scriptName}.user.js` create a npm script like this:
+
+```json
+{
+  "scripts": {
+    "dev": "concurrently 'yarn webpack --watch' 'yarn serve -l 9002 build'"   
+  },
+  "devDependencies": {
+    "concurrently": "5.1",
+    "serve": "11.3"
+  }
+}
+```

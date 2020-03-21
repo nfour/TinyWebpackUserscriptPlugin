@@ -2,32 +2,27 @@ import { resolve } from 'path';
 import { Configuration } from 'webpack';
 import { TinyWebpackUserscriptPlugin, IMetaSchema } from '../TinyWebpackUserscriptPlugin';
 
-
 const buildDirectory = resolve(__dirname, './build');
-
+const name = 'TestScript'
 const meta: IMetaSchema = {
+  name,
   author: 'jim',
   license: 'MIT',
-  name: 'TestScript',
   namespace: 'jim',
   version: '0.1.0',
+  updateURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
+  downloadURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
 }
 
-export default <Configuration>{
+export default <Configuration> {
   mode: "development",
-  entry: { [meta.name]: `./${meta.name}.ts` },
+  entry: `./${name}.ts`,
   plugins: [
-    new TinyWebpackUserscriptPlugin({
-      distributionUrl: 'foo.com/wew',
-      meta: meta,
-      development: {
-        baseUrl: 'http://localhost:9002'
-      }
-    })
+    new TinyWebpackUserscriptPlugin({ meta, developmentUrl: 'http://localhost:9002' })
   ],
   output: {
     path: buildDirectory,
-    filename: `[name].user.js`
+    filename: `${name}.user.js`
   },
   resolve: { extensions: ['.ts', '.js'] },
   module: {

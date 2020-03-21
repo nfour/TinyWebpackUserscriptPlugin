@@ -6,7 +6,7 @@ import * as pad from "pad";
 const PLUGIN_NAME = 'WebpackUserscriptPlugin';
 
 export class TinyWebpackUserscriptPlugin implements Plugin {
-  constructor (public options: { meta: IMetaSchema, distributionUrl: string, development?: { baseUrl: string; }, }) {
+  constructor (public options: { meta: IMetaSchema, developmentUrl?: string, }) {
     this.options = options;
   }
 
@@ -21,39 +21,30 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
       const meta = {
         ...this.options.meta,
         ...(() => {
-          if (this.options.development) {
+          if (this.options.developmentUrl) {
             return {
-              updateURL: urlResolve(this.options.development.baseUrl, devFilename),
+              updateURL: urlResolve(this.options.developmentUrl, devFilename),
             };
           }
         })(),
       };
 
-      const scriptUrl = `${this.options.distributionUrl}/${this.options.meta.name}.user.js`;
-
-      const distributionHeader = renderScriptHeader({
-        ...meta,
-        updateURL: scriptUrl,
-        downloadURL: scriptUrl,
-      });
+      const mainHeader = renderScriptHeader(meta);
 
       compilation.chunks.forEach((chunk: CompilationNS.Chunk) => {
         if (!chunk.canBeInitial()) { return; }
 
         chunk.files.forEach((filename) => {
-          (compilation as any).updateAsset(
-            filename,
-            (src: string) => new ConcatSource(distributionHeader, '\n', src),
-          );
+          compilation.updateAsset( filename, (src: string) => new ConcatSource(mainHeader, '\n', src));
         });
       });
 
-      // Produces a header-only file which is used for development
-      if (this.options.development) {
+      // Produces a header-only file, which is used for development
+      if (this.options.developmentUrl) {
         const devHeaderFile = renderScriptHeader({
           ...meta,
           // Causes the actual script to be included
-          require: urlResolve(this.options.development.baseUrl, mainFilename),
+          require: urlResolve(this.options.developmentUrl, mainFilename),
         });
 
         compilation.emitAsset(devFilename, new RawSource(devHeaderFile));

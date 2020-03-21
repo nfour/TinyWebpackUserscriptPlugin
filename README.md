@@ -21,9 +21,9 @@ export default <Configuration> {
   entry: { [meta.name]: `./${meta.name}.ts` },
   plugins: [
     new TinyWebpackUserscriptPlugin({
+      meta,
       distributionUrl: 'foo.com/wew',
-      meta: meta,
-      development: { baseUrl: 'http://localhost:9002' }
+      developmentUrl: 'http://localhost:9002'
     })
   ],
   output: {

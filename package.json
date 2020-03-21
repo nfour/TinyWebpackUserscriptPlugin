@@ -21,7 +21,7 @@
   "version": "1.0.0",
   "description": "A tiny plugin to create Tampermonkey/Greasemonkey userscripts with webpack",
   "main": "build/TinyWebpackUserscriptPlugin",
-  "repository": "git@github.com:nfour/webpack-userscript-plugin",
+  "repository": "git@github.com:nfour/tiny-webpack-userscript-plugin",
   "author": "nfour <novus.nfour@gmail.com>",
   "files": [
     "build"

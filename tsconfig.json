@@ -8,5 +8,5 @@
     "module": "CommonJS",
     "lib": ["esnext"],
   },
-  "include": ["WebpackUserscriptPlugin.ts"]
+  "include": ["TinyWebpackUserscriptPlugin.ts"]
 }

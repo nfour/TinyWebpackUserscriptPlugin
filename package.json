@@ -1,8 +1,26 @@
 {
-  "name": "webpack-userscript-plugin",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "pad": "~3.2.0",
+    "webpack-sources": "~1.4.3"
+  },
+  "devDependencies": {
+    "@types/webpack-sources": "~0.1.6",
+    "@types/jest": "~25.1.4",
+    "@types/node": "~13.9.2",
+    "@types/webpack": "~4.41.8",
+    "jest": "~25.1.0",
+    "ts-jest": "~25.2.1",
+    "typescript": "~3.8.3"
+  },
+  "name": "tiny-webpack-userscript-plugin",
   "version": "1.0.0",
-  "description": "A tiny plugin to create Tampermonkey/Greasemonkey userscripts",
-  "main": "build/WebpackUserscriptPlugin",
+  "description": "A tiny plugin to create Tampermonkey/Greasemonkey userscripts with webpack",
+  "main": "build/TinyWebpackUserscriptPlugin",
   "repository": "git@github.com:nfour/webpack-userscript-plugin",
   "author": "nfour <novus.nfour@gmail.com>",
   "files": [
@@ -14,19 +32,7 @@
     "userscript",
     "plugin"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
-  "peerDependencies": {},
-  "dependencies": {
-    "@types/lodash": "^4.14.149",
-    "@types/webpack-sources": "^0.1.6",
-    "lodash": "^4.17.15",
-    "pad": "^3.2.0",
-    "webpack-sources": "^1.4.3"
-  },
-  "devDependencies": {
-    "@types/node": "13.9",
-    "@types/webpack": "4.4"
+  "jest": {
+    "preset": "ts-jest"
   }
 }

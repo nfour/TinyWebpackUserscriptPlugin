@@ -5,7 +5,7 @@ import * as pad from "pad";
 
 const PLUGIN_NAME = 'WebpackUserscriptPlugin';
 
-export class WebpackUserscriptPlugin implements Plugin {
+export class TinyWebpackUserscriptPlugin implements Plugin {
   constructor (public options: { meta: IMetaSchema, distributionUrl: string, development?: { baseUrl: string; }, }) {
     this.options = options;
   }

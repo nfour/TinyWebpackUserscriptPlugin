@@ -1,10 +1,7 @@
 # Tiny Webpack Userscript Plugin
 
-- Allows one to bundle userscripts, using webpack
-- It's one file: [TinyWebpackUserscriptPlugin.ts](./TinyWebpackUserscriptPlugin.ts)
-
-+ [Usage](#usage)
-+ [Development tips](#development-tips)
+> Allows one to bundle userscripts, using webpack
+> It's one file: [TinyWebpackUserscriptPlugin.ts](./TinyWebpackUserscriptPlugin.ts)
 
 ## Usage
 

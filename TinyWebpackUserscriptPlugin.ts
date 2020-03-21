@@ -17,19 +17,7 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
 
       const mainFilename = `${this.options.meta.name}.user.js`;
       const devFilename = `${this.options.meta.name}.dev.user.js`;
-
-      const meta = {
-        ...this.options.meta,
-        ...(() => {
-          if (this.options.developmentUrl) {
-            return {
-              updateURL: urlResolve(this.options.developmentUrl, devFilename),
-            };
-          }
-        })(),
-      };
-
-      const mainHeader = renderScriptHeader(meta);
+      const mainHeader = renderScriptHeader(this.options.meta);
 
       compilation.chunks.forEach((chunk: CompilationNS.Chunk) => {
         if (!chunk.canBeInitial()) { return; }
@@ -41,13 +29,14 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
 
       // Produces a header-only file, which is used for development
       if (this.options.developmentUrl) {
-        const devHeaderFile = renderScriptHeader({
-          ...meta,
-          // Causes the actual script to be included
+        const devHeader = renderScriptHeader({
+          ...this.options.meta,
+          version: `${this.options.meta.version}-${Date.now()}`,
+          updateURL: urlResolve(this.options.developmentUrl, devFilename),
           require: urlResolve(this.options.developmentUrl, mainFilename),
         });
 
-        compilation.emitAsset(devFilename, new RawSource(devHeaderFile));
+        compilation.emitAsset(devFilename, new RawSource(devHeader));
       }
     });
   }

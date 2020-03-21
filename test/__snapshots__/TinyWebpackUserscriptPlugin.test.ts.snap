@@ -2,26 +2,27 @@
 
 exports[`builds the correct documents: devScript 1`] = `
 "// ==UserScript==
-// @author    jim
-// @license   MIT
-// @name      TestScript
-// @namespace jim
-// @version   0.1.0
-// @updateURL http://localhost:9002/TestScript.dev.user.js
-// @require   http://localhost:9002/TestScript.user.js
+// @name        TestScript
+// @author      jim
+// @license     MIT
+// @namespace   jim
+// @version     0.1.0
+// @updateURL   http://localhost:9002/TestScript.dev.user.js
+// @downloadURL http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
+// @require     http://localhost:9002/TestScript.user.js
 // ==/UserScript==
 "
 `;
 
 exports[`builds the correct documents: mainScript 1`] = `
 "// ==UserScript==
+// @name        TestScript
 // @author      jim
 // @license     MIT
-// @name        TestScript
 // @namespace   jim
 // @version     0.1.0
-// @updateURL   foo.com/wew/TestScript.user.js
-// @downloadURL foo.com/wew/TestScript.user.js
+// @updateURL   http://localhost:9002/TestScript.dev.user.js
+// @downloadURL http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
 // ==/UserScript==
 
 /******/ (function(modules) { // webpackBootstrap

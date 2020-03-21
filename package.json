@@ -1,0 +1,32 @@
+{
+  "name": "webpack-userscript-plugin",
+  "version": "1.0.0",
+  "description": "A tiny plugin to create Tampermonkey/Greasemonkey userscripts",
+  "main": "build/WebpackUserscriptPlugin",
+  "repository": "git@github.com:nfour/webpack-userscript-plugin",
+  "author": "nfour <novus.nfour@gmail.com>",
+  "files": [
+    "build"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "webpack",
+    "userscript",
+    "plugin"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {},
+  "dependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/webpack-sources": "^0.1.6",
+    "lodash": "^4.17.15",
+    "pad": "^3.2.0",
+    "webpack-sources": "^1.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "13.9",
+    "@types/webpack": "4.4"
+  }
+}

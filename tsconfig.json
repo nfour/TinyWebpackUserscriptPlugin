@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "target": "es2018",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "module": "CommonJS",
+    "lib": ["esnext"],
+  },
+  "include": ["WebpackUserscriptPlugin.ts"]
+}

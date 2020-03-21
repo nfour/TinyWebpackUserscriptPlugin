@@ -8,27 +8,36 @@
 This could be your `webpack.config.ts`:
 
 ```ts
+import { resolve } from 'path';
+import { Configuration } from 'webpack';
+import { TinyWebpackUserscriptPlugin, IMetaSchema } from 'tiny-webpack-userscript-plugin';
+
+const buildDirectory = resolve(__dirname, './build');
+const name = 'TestScript'
 const meta: IMetaSchema = {
+  name,
   author: 'jim',
   license: 'MIT',
-  name: 'TestScript',
   namespace: 'jim',
   version: '0.1.0',
+  updateURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
+  downloadURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
 }
 
 export default <Configuration> {
   mode: "development",
-  entry: { [meta.name]: `./${meta.name}.ts` },
+  entry: `./${name}.ts`,
   plugins: [
     new TinyWebpackUserscriptPlugin({
       meta,
-      distributionUrl: 'foo.com/wew',
-      developmentUrl: 'http://localhost:9002'
+      developmentUrl: 'http://localhost:9002',
+      // default: false. If true, additional headers to appease OpenUserJS are appended
+      appendOpenUserJSHeader: true,
     })
   ],
   output: {
     path: buildDirectory,
-    filename: `[name].user.js`
+    filename: `${name}.user.js`
   },
   resolve: { extensions: ['.ts', '.js'] },
   module: {
@@ -37,6 +46,7 @@ export default <Configuration> {
     }]
   },
 }
+
 ```
 
 - See test project [./test/TinyWebpackUserscriptPlugin.test.ts](./test/TinyWebpackUserscriptPlugin.test.ts) for details.

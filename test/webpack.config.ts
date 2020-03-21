@@ -18,7 +18,11 @@ export default <Configuration> {
   mode: "development",
   entry: `./${name}.ts`,
   plugins: [
-    new TinyWebpackUserscriptPlugin({ meta, developmentUrl: 'http://localhost:9002' })
+    new TinyWebpackUserscriptPlugin({
+      meta,
+      developmentUrl: 'http://localhost:9002',
+      appendOpenUserJSHeader: true,
+    })
   ],
   output: {
     path: buildDirectory,

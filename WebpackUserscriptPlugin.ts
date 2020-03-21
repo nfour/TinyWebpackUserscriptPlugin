@@ -63,8 +63,10 @@ export class WebpackUserscriptPlugin implements Plugin {
 }
 
 export function renderScriptHeader (meta: Partial<IMetaSchema>, { omitRequire = false, name = 'UserScript' } = {}): string {
-  function addProperty (key: string, value: string) {
+  function addProperty (key: string, value: string | IMap) {
     if (omitRequire && key === 'require') { return; }
+
+    if (typeof value !== 'string') { value = JSON.stringify(value) }
 
     lines.push(`// @${pad(key, padLength)} ${value}`);
   };
@@ -96,6 +98,7 @@ export function renderScriptHeader (meta: Partial<IMetaSchema>, { omitRequire = 
 }
 
 export type IStrings = string | string[];
+export type IMap = { [k: string]: any };
 
 export interface IMetaSchema {
   name: string;
@@ -113,6 +116,7 @@ export interface IMetaSchema {
   match?: IStrings;
   require?: IStrings;
   resource?: IStrings;
+  webRequest?: IMap[];
 
   grant?: (
     Array<
@@ -134,5 +138,5 @@ export interface IMetaSchema {
   );
   'run-at'?: 'document-end' | 'document-start' | 'document-idle';
   noframes?: boolean;
-  [k: string]: IStrings | boolean | undefined;
+  [k: string]: IStrings | boolean | undefined | IMap | IMap[];
 }

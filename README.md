@@ -49,6 +49,8 @@ export default {
 };
 ```
 
+> **Tip**: To produce **multiple scripts**, just export an array of webpack configs.
+
 
 ## Development tips
 

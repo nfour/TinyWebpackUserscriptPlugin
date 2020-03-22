@@ -2,15 +2,15 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .ts .",
+    "emitNpmPackage": "rm -rf package tiny*.tgz; npm pack; tar xf tiny*",
     "test": "jest"
   },
-  "peerDependencies": {},
   "dependencies": {
-    "eslint-config-standard-typescript-prettier": "file:.yalc/eslint-config-standard-typescript-prettier",
     "pad": "~3.2.0",
     "webpack-sources": "~1.4.3"
   },
   "devDependencies": {
+    "eslint-config-standard-typescript-prettier": "~1.0.0",
     "@types/jest": "~25.1.4",
     "@types/node": "~13.9.2",
     "@types/webpack": "~4.41.8",
@@ -38,7 +38,8 @@
   "repository": "git@github.com:nfour/tiny-webpack-userscript-plugin",
   "author": "nfour <novus.nfour@gmail.com>",
   "files": [
-    "build"
+    "build",
+    "!build/test"
   ],
   "license": "MIT",
   "keywords": [
@@ -46,17 +47,14 @@
     "userscript",
     "plugin"
   ],
-  "prettier": "eslint-config-standard-typescript-prettier/prettier",
   "jest": {
     "preset": "ts-jest"
   },
+  "prettier": "eslint-config-standard-typescript-prettier/prettier",
   "eslintConfig": {
     "extends": "standard-typescript-prettier",
     "parserOptions": {
-      "project": [
-        "./tsconfig.json",
-        "./test/tsconfig.json"
-      ]
+      "project": "./tsconfig.json"
     },
     "plugins": [
       "only-warn"

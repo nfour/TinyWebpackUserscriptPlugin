@@ -3,3 +3,5 @@ build
 !test/build
 .yalc
 yalc.lock
+/package
+*.tgz

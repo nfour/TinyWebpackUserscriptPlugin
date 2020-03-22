@@ -1293,8 +1293,10 @@ eslint-config-prettier@~6.10.0:
   dependencies:
     get-stdin "^6.0.0"
 
-"eslint-config-standard-typescript-prettier@file:.yalc/eslint-config-standard-typescript-prettier":
-  version "1.0.0-527c81e5"
+eslint-config-standard-typescript-prettier@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-standard-typescript-prettier/-/eslint-config-standard-typescript-prettier-1.0.0.tgz#739005b8c736c8e1a546d194f01305c850c13f8e"
+  integrity sha512-ynhhUIP7oTp7QLp916zX7DDyXMw00VU+3lW9pkz43+SDWezV/akyXUtlS72/8QBlWHPpBRz2NAGT1q1F1vtXMw==
 
 eslint-config-standard@~14.1.1:
   version "14.1.1"

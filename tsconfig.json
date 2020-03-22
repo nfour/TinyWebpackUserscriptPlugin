@@ -6,5 +6,5 @@
     "outDir": "build",
     "module": "CommonJS"
   },
-  "include": ["TinyWebpackUserscriptPlugin.ts"]
+  "include": ["TinyWebpackUserscriptPlugin.ts", "test"]
 }

@@ -5,20 +5,23 @@
 
 ## Usage
 
-This could be your `webpack.config.ts`:
+> Check out the test project [./test/webpack.config.ts](./test/webpack.config.ts) for a full example!
+
+This could be your `webpack.config`:
 
 ```ts
 import { resolve } from 'path';
-import { TinyWebpackUserscriptPlugin, IMetaSchema } from 'tiny-webpack-userscript-plugin';
+import { TinyWebpackUserscriptPlugin } from 'tiny-webpack-userscript-plugin';
 
 const buildDirectory = resolve(__dirname, './build');
-const scriptName = 'TestScript'
+const scriptName = 'TestScript';
 
 export default {
   mode: "development",
   entry: `./${scriptName}.ts`,
   plugins: [
     new TinyWebpackUserscriptPlugin({
+      scriptName,
       headers: [
         {
           name: scriptName,
@@ -43,11 +46,9 @@ export default {
       test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/
     }]
   },
-}
-
+};
 ```
 
-> Check out the test project [./test/TinyWebpackUserscriptPlugin.test.ts](./test/TinyWebpackUserscriptPlugin.test.ts) for a full example!
 
 ## Development tips
 

@@ -19,7 +19,7 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
   constructor(
     public options: {
       scriptName: string;
-      headers: IMetaConfig | IMetaConfig[];
+      headers: IMetaConfig[];
       /** The URL to your development server @example http://localhost:9002 */
       developmentUrl?: string;
       /** Adds a timestamp to the version @example 1.0.0-1584857821510 */
@@ -37,17 +37,12 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
       };
       const compilation = input as CompliationWithMethods;
 
-      const metaConfigs: IMetaConfig[] = Array.isArray(this.options.headers)
-        ? this.options.headers
-        : [this.options.headers];
-
       const { scriptName } = this.options;
-
-      const [mainConfig] = metaConfigs;
+      const [mainConfig] = this.options.headers;
 
       const mainFilename = `${scriptName}.user.js`;
       const devFilename = `${scriptName}.dev.user.js`;
-      const headerBlocks = metaConfigs.map(renderScriptHeader);
+      const headerBlocks = this.options.headers.map(renderScriptHeader);
 
       compilation.chunks.forEach((chunk: CompilationNS.Chunk) => {
         if (!chunk.canBeInitial()) {

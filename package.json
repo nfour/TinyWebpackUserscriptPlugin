@@ -48,7 +48,11 @@
     "plugin"
   ],
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": [
+      "/build/",
+      "/node_modules/"
+    ]
   },
   "prettier": "eslint-config-standard-typescript-prettier/prettier",
   "eslintConfig": {

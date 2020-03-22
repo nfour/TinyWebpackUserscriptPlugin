@@ -1,35 +1,39 @@
-import { resolve } from 'path'
-import { Configuration } from 'webpack'
+import { resolve } from 'path';
+import { Configuration } from 'webpack';
 import {
   TinyWebpackUserscriptPlugin,
   IMetaSchema,
-} from '../TinyWebpackUserscriptPlugin'
+} from '../TinyWebpackUserscriptPlugin';
 
-const buildDirectory = resolve(__dirname, './build')
-const name = 'TestScript'
+const buildDirectory = resolve(__dirname, './build');
+const scriptName = 'TestScript';
 const meta: IMetaSchema = {
-  name,
+  name: scriptName,
   author: 'jim',
   license: 'MIT',
   namespace: 'jim',
   version: '0.1.0',
-  updateURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
-  downloadURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${name}.user.js`,
-}
+  updateURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${scriptName}.user.js`,
+  downloadURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${scriptName}.user.js`,
+};
 
 export default {
   mode: 'development',
-  entry: `./${name}.ts`,
+  entry: `./${scriptName}.ts`,
   plugins: [
     new TinyWebpackUserscriptPlugin({
-      meta,
+      scriptName,
+      headers: [
+        { meta },
+        { headerName: 'OpenUserJS', meta: { author: meta.author } },
+      ],
       developmentUrl: 'http://localhost:9002',
-      appendOpenUserJSHeader: true,
+      addTimestampToVersionInDevelopment: false,
     }),
   ],
   output: {
     path: buildDirectory,
-    filename: `${name}.user.js`,
+    filename: `${scriptName}.user.js`,
   },
   resolve: { extensions: ['.ts', '.js'] },
   module: {
@@ -41,4 +45,4 @@ export default {
       },
     ],
   },
-} as Configuration
+} as Configuration;

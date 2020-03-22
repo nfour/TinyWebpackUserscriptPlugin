@@ -6,11 +6,12 @@ exports[`builds the correct documents: devScript 1`] = `
 // @author      jim
 // @license     MIT
 // @namespace   jim
-// @version     0.1.0-1584801455708
+// @version     0.1.0
 // @updateURL   http://localhost:9002/TestScript.dev.user.js
 // @downloadURL http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
 // @require     http://localhost:9002/TestScript.user.js
 // ==/UserScript==
+
 "
 `;
 
@@ -24,7 +25,6 @@ exports[`builds the correct documents: mainScript 1`] = `
 // @updateURL   http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
 // @downloadURL http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
 // ==/UserScript==
-
 
 // ==OpenUserJS==
 // @author jim

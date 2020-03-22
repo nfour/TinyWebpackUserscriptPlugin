@@ -3,22 +3,30 @@ import { compilation as CompilationNS, Compiler, Plugin } from 'webpack';
 import { ConcatSource, RawSource } from 'webpack-sources';
 import * as pad from 'pad';
 
-const PLUGIN_NAME = 'WebpackUserscriptPlugin';
+const PLUGIN_NAME = 'TinyWebpackUserscriptPlugin';
 
-const urlResolve = (base: string, frag: string) =>
-  new URL(frag, base).toString();
+interface IMetaConfig {
+  /**
+   * The header block name
+   * @default "UserScript"
+   * @example "OpenUserJS"
+   */
+  headerName?: string;
+  meta: Partial<IMetaSchema>;
+}
 
 export class TinyWebpackUserscriptPlugin implements Plugin {
   constructor(
     public options: {
-      meta: IMetaSchema;
+      scriptName: string;
+      headers: IMetaConfig | IMetaConfig[];
       /** The URL to your development server @example http://localhost:9002 */
       developmentUrl?: string;
       /** Adds a timestamp to the version @example 1.0.0-1584857821510 */
-      addTimestampToVersion: boolean;
+      addTimestampToVersionInDevelopment?: boolean;
     },
   ) {
-    this.options = options;
+    this.options = { ...options };
   }
 
   apply(compiler: Compiler) {
@@ -29,24 +37,17 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
       };
       const compilation = input as CompliationWithMethods;
 
-      const mainFilename = `${this.options.meta.name}.user.js`;
-      const devFilename = `${this.options.meta.name}.dev.user.js`;
+      const metaConfigs: IMetaConfig[] = Array.isArray(this.options.headers)
+        ? this.options.headers
+        : [this.options.headers];
 
-      const mainHeader = (() => {
-        const header = renderScriptHeader(this.options.meta);
+      const { scriptName } = this.options;
 
-        // TODO: omit this, instead implement it with an array parameter for this.options.meta
-        // if (!this.options.appendOpenUserJSHeader) {
-        //   const openUserJsHeader = renderScriptHeader(
-        //     { author: this.options.meta.author },
-        //     { name: 'OpenUserJS' },
-        //   );
+      const [mainConfig] = metaConfigs;
 
-        //   return [header, openUserJsHeader].join('\n');
-        // }
-
-        return header;
-      })();
+      const mainFilename = `${scriptName}.user.js`;
+      const devFilename = `${scriptName}.dev.user.js`;
+      const headerBlocks = metaConfigs.map(renderScriptHeader);
 
       compilation.chunks.forEach((chunk: CompilationNS.Chunk) => {
         if (!chunk.canBeInitial()) {
@@ -56,22 +57,27 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
         chunk.files.forEach((filename) => {
           compilation.updateAsset(
             filename,
-            (src: string) => new ConcatSource(mainHeader, '\n', src),
+            (src: string) => new ConcatSource(...headerBlocks, src),
           );
         });
       });
 
-      // Produces a header-only file, which is used for development
+      //  Produces a header-only file, used for development
       if (this.options.developmentUrl) {
-        const versionWithTimestampOverride = this.options.addTimestampToVersion
-          ? { version: `${this.options.meta.version}-${Date.now()}` }
+        const { addTimestampToVersionInDevelopment } = this.options;
+
+        const versionWithTimestampOverride = addTimestampToVersionInDevelopment
+          ? { version: `${mainConfig.meta.version}-${Date.now()}` }
           : {};
 
         const devHeader = renderScriptHeader({
-          ...this.options.meta,
-          ...versionWithTimestampOverride,
-          updateURL: urlResolve(this.options.developmentUrl, devFilename),
-          require: urlResolve(this.options.developmentUrl, mainFilename),
+          ...mainConfig,
+          meta: {
+            ...mainConfig.meta,
+            ...versionWithTimestampOverride,
+            updateURL: urlResolve(this.options.developmentUrl, devFilename),
+            require: urlResolve(this.options.developmentUrl, mainFilename),
+          },
         });
 
         compilation.emitAsset(devFilename, new RawSource(devHeader));
@@ -80,15 +86,14 @@ export class TinyWebpackUserscriptPlugin implements Plugin {
   }
 }
 
-export function renderScriptHeader(
-  meta: Partial<IMetaSchema>,
-  { omitRequire = false, name = 'UserScript' } = {},
-): string {
+export function renderScriptHeader({
+  meta,
+  headerName = 'UserScript',
+}: {
+  meta: Partial<IMetaSchema>;
+  headerName?: string;
+}): string {
   function addProperty(key: string, value: string | IMap) {
-    if (omitRequire && key === 'require') {
-      return;
-    }
-
     if (typeof value !== 'string') {
       value = JSON.stringify(value);
     }
@@ -99,30 +104,33 @@ export function renderScriptHeader(
   const lines: string[] = [];
   const padLength = Math.max(...Object.keys(meta).map((k) => k.length));
 
-  lines.push(`// ==${name}==`);
+  lines.push(`// ==${headerName}==`);
 
-  for (const key of Object.keys(meta)) {
+  Object.keys(meta).forEach((key) => {
     if (key[0] === '$') {
-      continue;
+      return;
     }
 
     const value = meta[key];
 
     if (Array.isArray(value)) {
-      for (const subValue of value) {
+      value.forEach((subValue: any) => {
         addProperty(key, subValue);
-      }
+      });
     } else if (typeof value === 'string') {
       addProperty(key, value);
     } else if (typeof value === 'boolean' && value) {
       addProperty(key, '');
     }
-  }
+  });
 
-  lines.push(`// ==/${name}==\n`);
+  lines.push(`// ==/${headerName}==\n\n`);
 
   return lines.join('\n');
 }
+
+const urlResolve = (base: string, frag: string) =>
+  new URL(frag, base).toString();
 
 export type IStrings = string | string[];
 export type IMap = { [k: string]: any };

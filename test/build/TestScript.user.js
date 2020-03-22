@@ -8,6 +8,10 @@
 // @downloadURL http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/TestScript.user.js
 // ==/UserScript==
 
+// ==OpenUserJS==
+// @author jim
+// ==/OpenUserJS==
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};

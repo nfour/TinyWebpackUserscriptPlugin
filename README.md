@@ -13,12 +13,13 @@ This could be your `webpack.config`:
 import { resolve } from 'path';
 import { TinyWebpackUserscriptPlugin } from 'tiny-webpack-userscript-plugin';
 
-const buildDirectory = resolve(__dirname, './build');
+const dir = (...paths: string[]) => resolve(__dirname, ...paths)
+
 const scriptName = 'TestScript';
 
 export default {
   mode: "development",
-  entry: `./${scriptName}.ts`,
+  entry: { [scriptName]: dir(`./${scriptName}.ts`) },
   plugins: [
     new TinyWebpackUserscriptPlugin({
       scriptName,
@@ -37,10 +38,10 @@ export default {
     })
   ],
   output: {
-    path: buildDirectory,
-    filename: `${scriptName}.user.js`
+    path: dir('./build'),
+    filename: `[name].user.js`
   },
-  resolve: { extensions: ['.ts', '.js'] },
+  resolve: { extensions: ['.ts', '.js', '.json'] },
   module: {
     rules: [{
       test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/

@@ -52,6 +52,15 @@ export default {
 
 > **Tip**: To produce **multiple scripts**, just export an array of webpack configs.
 
+The above config will emit a build folder like this: [./test/build](./test/build)
+- `TestScript.dev.user.js`
+  > Just the header, for development, `@requires` the main script.
+  > Note: References the `developmentUrl` for resolving script content
+- `TestScript.user.js` 
+  > Main script, also suitible for distribution (such as in a git repo)
+  > References the distribution urls, provided in the webpack example above.
+
+Check out the code/types for more details.
 
 ## Development tips
 

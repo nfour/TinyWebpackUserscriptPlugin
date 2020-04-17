@@ -5,7 +5,7 @@
 
 ## Usage
 
-> Check out the test project [./test/webpack.config.ts](./test/webpack.config.ts) for a full example!
+> Check out the test project [./test/webpack.config.ts](./test/webpack.config.ts) for a full example (Includes extra headers for OpenUseJs).
 
 This could be your `webpack.config`:
 

@@ -34,6 +34,7 @@ export default {
           downloadURL: `http://github.com/nfour/tiny-webpack-userscript-plugin/master/tree/test/build/${scriptName}.user.js`,
         }
       ],
+      // Optional:
       developmentUrl: 'http://localhost:9002',
     })
   ],

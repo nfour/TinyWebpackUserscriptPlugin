@@ -55,7 +55,7 @@ export default {
 
 ## Development tips
 
-To compile and serve your userscripts at, for at `http://localhost:9002/${scriptName}.user.js` create a npm script like this:
+To compile and serve your userscripts at, eg. `http://localhost:9002/${scriptName}.user.js`, then create an npm script like this:
 
 ```json
 {
